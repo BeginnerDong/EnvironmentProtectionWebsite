@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+		<meta name="renderer" content="webkit">
+		<meta name="description" content="">
+		<meta name="keywords" content="">
+		<title>人才招聘</title>
+		<script type="text/javascript" src="./js/vue.js"></script>
+		<script type="text/javascript" src="js/jquery.min.js"></script>
+		<script type="text/javascript" src="js/base.js"></script>
+		<script type="text/javascript" src="js/include.js"></script>
+		<link type="text/css" rel="stylesheet" href="css/public.css">
+	</head>
+
+<body class="f5bj">
+	<div id="app">
+		<include src="header.html"></include>
+		<include src="banner.html"></include>
+		
+		<div class="w1200 recruitList center">
+			<ul class="clearfix">
+				<li v-for="(item,index) in recruitData" :key="index">
+					<a href="recruitDetail.html">
+						<div class="photo"><img src="images/recruitmentl-icon.png" ></div>
+						<h1 class="name">工程师</h1>
+						<h2 class="ftn money">7k-17k</h2>
+						<p class="jieshao avoidOverflow2">工程师个人介绍工程师个人介绍工程师个人介绍工程师个人介绍工程师个人介绍</p>
+						<p class="lable fs16 color6">三年以上 | 本科 | 北京 </p>
+					</a>
+				</li>
+			</ul>
+		</div>
+		
+		<div class="pdt20"></div>
+		<div class="all-pages">
+			<a class="no-prev"><img class="arrowIcon" src="images/product-icon1.png" ></a>
+			<a class="current">1</a>
+			<a href="#">2</a><a href="#">3</a>&nbsp;...&nbsp;<a href="#">10</a>
+			<a href="#" class="next"><img class="arrowIcon" src="images/product-icon2.png" ></a>
+		</div>
+			
+		<include src="footer.html"></include>
+	</div>
+</body>
+
+	
+	<script type="text/javascript">
+		var app = new Vue({
+		    el: '#app',
+		    data:function(){
+		        return {
+		        	banner_index:0,
+					is_show:false,
+					wx_show:2,
+					mainData: [],
+					labelData: [],
+					recruitData:6
+		        }
+		    },
+		    methods: {
+				getMainData: function(id){
+				    var self = this;
+				    var callback = function(res){
+				        console.log('getMainData', res);
+				        self.mainData.push.apply(self.mainData,res.info.data);
+				        for (var i = 0; i < self.mainData.length; i++) {
+				        	self[self.mainData[i].title] = self.mainData[i];
+				        };
+				        self.getNewsData()
+				    };
+					console.log('self.mainData',self.mainData)
+				    window.base.labelGet(postData, callback);
+				}
+		    }
+		});
+	</script>
+	<style type="text/css">
+		.recruitList{padding-bottom: 40px;}
+		.recruitList li{width: 380px;height: 400px;background: #fff;margin: 80px 30px 0 0;box-sizing: border-box;padding: 90px 20px 20px 20px;position: relative;box-shadow:0 2px 8px rgba(111, 111, 111, 0.1);float: left;}
+		.recruitList li a{display: block;}
+		.recruitList li:nth-of-type(3n){margin-right: 0;}
+		.recruitList li .photo{position: absolute;top: -50px;left: 50%;transform: translateX(-50%);width: 100px;height: 100px;border-radius: 50%;overflow: hidden;padding: 28px;box-sizing: border-box;box-shadow: 0 2px 5px rgba(0,0,0,0.15);background: #fff;}
+		.recruitList li .photo img{width: 100%;height: 100%;display: block;}
+		.recruitList li .name{font-size: 24px;line-height: 36px;}
+		.recruitList li .money{font-size: 34px;color: #c11719;margin: 35px auto;line-height: 50px;}
+		.recruitList li .jieshao{line-height: 28px;font-size: 16px;height: 56px;margin-bottom: 35px;}
+		
+		
+		@media screen and ( max-width: 1280px){
+			.recruitList li{width: 32%;height:311px;margin-right: 2%;padding-top: 65px;  }
+			.recruitList li .photo{width: 90px;height: 90px;padding: 25px; top: -45px;}
+			.recruitList li .money{font-size: 28px;margin: 20px 0;}
+			.recruitList li .jieshao{margin-bottom: 20px;}
+		}
+		@media screen and ( max-width: 768px){
+			.recruitList li{width: 32%;height:278px;padding-top: 50px;}
+			.recruitList li .photo{width: 80px;height: 80px;padding: 20px; top: -40px;}
+			.recruitList li .name{font-size: 22px;}
+			.recruitList li .money{font-size: 26px;margin: 15px 0;}
+			.recruitList li .jieshao{font-size: 15px;line-height: 24px;height: 48px;}
+			.recruitList li .lable{font-size: 15px;}
+		}
+		@media screen and ( max-width: 500px){
+			.recruitList li{width: 48%;height: 220px;margin-right: 4%;padding: 45px 10px 20px 10px;margin-top: 65px;}
+			.recruitList li .photo{width: 66px;height: 66px;padding: 15px; top: -33px; }
+			.recruitList li .name{font-size: 18px;    line-height: 30px;}
+			
+			.recruitList li:nth-of-type(2n){margin-right: 0!important;}
+			.recruitList li:nth-of-type(3n){margin-right: 4%;}
+			
+			.recruitList li .money{font-size: 18px;line-height: 30px;margin: 10px 0;}
+			.recruitList li .jieshao{margin-bottom: 10px;font-size: 12px;line-height: 20px;height: 40px; }
+			.recruitList li .lable{font-size: 12px;}
+		}
+	</style>
+</html>

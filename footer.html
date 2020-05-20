@@ -1,0 +1,101 @@
+
+<div id="footer">
+	<div class="footer fs12 white">
+		<div class="cont">
+			<div class="footNav clearfix center">
+				<p><a href="index.html">首页</a></p>
+				<p><a href="#">企业简介</a></p>
+				<p><a href="#">产品介绍</a></p>
+				<p><a href="#">工程案例</a></p>
+				<p><a href="#">人才招聘</a></p>
+				<p><a href="#">公司新闻</a></p>
+				<p><a href="#">联系我们</a></p>
+			</div>
+			<div class="footMsg clearfix">
+				<div class="ll fl">
+					<div class="text fs16">
+						<p class="phone">电话：029-8565-5623</p>
+						<p>地址：西安市高新区锦业路38号粤汉国际D作23层</p>
+					</div>
+					
+				</div>
+				<div class="rr fr">
+					<img class="ewm" src="images/home-img3.jpg" >
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+		var footer = new Vue({
+		    el: '#footer',
+		    data:function(){
+		        return {
+		        	banner_index:0,
+					is_show:false,
+					wx_show:2,
+					mainData: [],
+					labelData: []
+		        }
+		    },
+		    methods: {
+				getMainData: function(id){
+				    var self = this;
+				    var callback = function(res){
+				        console.log('getMainData', res);
+				        self.mainData.push.apply(self.mainData,res.info.data);
+				        for (var i = 0; i < self.mainData.length; i++) {
+				        	self[self.mainData[i].title] = self.mainData[i];
+				        };
+				        self.getNewsData()
+				    };
+					console.log('self.mainData',self.mainData)
+				    window.base.labelGet(postData, callback);
+				}
+				
+		    }
+		});
+	</script>
+
+<style type="text/css">
+	
+	/* 页脚 */
+	.footer{background: #313131; padding: 50px 0;}
+	.footer .cont{width:850px;margin: 0 auto;}
+	
+	.footer .footNav p{width: 14.28%;float: left;}
+	.footer .footNav a{color: #cacaca;font-size: 18px;}
+	.footer .footNav a:hover{color: #fff;}
+	.footer .footMsg{margin-top: 50px;}
+	.footer .footMsg .ll{width: 50%;margin-top: 20px;}
+	.footer .footMsg .ll .phone{margin-bottom: 30px;}
+	.footer .footMsg .ll .ewm{width: 90px;height: 90px;}
+	.footer .footMsg .ewm{width: 120px;height: 120px;}
+	
+	@media only screen and (max-width: 1024px){
+		.footer{padding: 40px 0;}
+		.footer .cont{width: 96%;}
+		.footer .footMsg .ll{width: 75%; margin-top: 0;}
+		.footer .footNav a{font-size: 16px;}
+		.footer .footMsg .ll .text{font-weight: normal;font-size: 15px;padding-right: 15px;}
+		.footer .footMsg .ll .phone{margin-bottom: 20px;}
+		
+		.footer .footMsg .ewm{width: 80px;height: 80px;}
+	}
+	@media only screen and (max-width: 500px){
+		.footer{padding: 25px 0;}
+		.footer .footNav{font-size: 12px;flex-wrap: wrap;}
+		.footer .footNav p{width: 25%;text-align: center;margin-bottom: 5px;}
+		.footer .footNav a{font-size: 14px;}
+		.footer .footMsg{margin-top: 10px;padding: 0 2%;}
+		
+		.footer .footMsg .ll{width: 100%;float: initial;}
+		.footer .footMsg .rr{float: initial;margin: 20px auto 0 auto;}
+		.footer .footMsg .ll .text{font-weight: normal;font-size: 13px;padding-right: 0px;text-align: center;}
+		.footer .footMsg .ll .text p:first-child{margin-bottom: 5px;}
+		.footer .footMsg .ewm{width: 80px;height: 80px;margin: 0 auto;}
+		
+	}
+</style>
+
