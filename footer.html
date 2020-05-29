@@ -14,13 +14,13 @@
 			<div class="footMsg clearfix">
 				<div class="ll fl">
 					<div class="text fs16">
-						<p class="phone">电话：029-8565-5623</p>
-						<p>地址：西安市高新区锦业路38号粤汉国际D作23层</p>
+						<p class="phone">电话：{{footData.small_title}}</p>
+						<p>地址：{{footData.description}}</p>
 					</div>
 					
 				</div>
 				<div class="rr fr">
-					<img class="ewm" src="images/home-img3.jpg" >
+					<img class="ewm" :src="footData.mainImg&&footData.mainImg[0]?footData.mainImg[0].url:''">
 				</div>
 			</div>
 		</div>
@@ -36,23 +36,46 @@
 					is_show:false,
 					wx_show:2,
 					mainData: [],
-					labelData: []
+					labelData: [],
+					footData:{}
 		        }
 		    },
+			
+			created:function () {
+			    var self = this;
+				self.getFootData();
+			},
+			
 		    methods: {
-				getMainData: function(id){
+				
+				getFootData(){
 				    var self = this;
+				    var postData = {};
+				    postData.searchItem = {
+						thirdapp_id:2,
+					};
+					postData.getBefore = {
+						child:{
+							tableName:'Label',
+							middleKey:'menu_id',
+							key:'id',
+							searchItem:{
+								status:['in',[1]],
+								title:['in',['联系我们']]
+							},
+							condition:'in',
+						}
+					};
+					postData.order = {
+						listorder:'desc'
+					};
 				    var callback = function(res){
-				        console.log('getMainData', res);
-				        self.mainData.push.apply(self.mainData,res.info.data);
-				        for (var i = 0; i < self.mainData.length; i++) {
-				        	self[self.mainData[i].title] = self.mainData[i];
-				        };
-				        self.getNewsData()
+				        if(res.info.data.length>0&&res.info.data[0]){
+							self.footData = res.info.data[0]
+				        };    
 				    };
-					console.log('self.mainData',self.mainData)
-				    window.base.labelGet(postData, callback);
-				}
+				    window.base.articleGet(postData, callback);
+				},
 				
 		    }
 		});

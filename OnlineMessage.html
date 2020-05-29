@@ -7,22 +7,22 @@
 			</div> -->
 			<div class="cont pr clearfix">
 				<div class="L-img">
-					<img src="images/home-img2.jpg" >
+					<img :src="contactData.bannerImg&&contactData.bannerImg[0]?contactData.bannerImg[0].url:''" >
 				</div>
 				<div class="editMsg">
 					<h1 class="tit pubColor">content Us</h1>
 					<div class="line">
-						<input type="text" placeholder="姓名">
+						<input type="text" v-model="submitData.title"  placeholder="姓名">
 					</div>
 					<div class="line">
-						<input type="text" min="0"  placeholder="电话" maxlength="11" onkeyup="this.value=this.value.replace(/\D/g,'')" >
+						<input type="text" v-model="submitData.phone" placeholder="电话" maxlength="11" onkeyup="this.value=this.value.replace(/\D/g,'')" >
 					</div>
 					<div class="line">
-						<textarea rows="" cols="" placeholder="留言"></textarea>
+						<textarea v-model="submitData.content" placeholder="留言"></textarea>
 					</div>
 					
 					<div class="submitbtn">
-						<button class="btn" type="submit" style="box-shadow: rgb(167, 206, 157) 0px 2px 6px;">确认留言</button>
+						<button class="btn" type="submit" style="box-shadow: rgb(167, 206, 157) 0px 2px 6px;" @click="addMessage">确认留言</button>
 					</div>
 				</div>
 			</div>
@@ -35,18 +35,90 @@
 			el: '#OnlineMessage',
 			data: function() {
 				return {
-
-					showIcon: false
+					contactData:{},
+					showIcon: false,
+					submitData:{
+						title:'',
+						phone:'',
+						content:'',
+						type:1,
+						thirdapp_id:2
+					},
 				}
 			},
 			created: function() {
-
+				const self = this;
+				self.getContactData()
 			},
+			
 			mounted: function() {
 				//window.addEventListener('scroll', this.handleScroll);
 			},
+			
 			methods: {
-
+				
+				addMessage: function(id) {
+					var self = this;
+					
+					if(self.submitData.title==''){
+						alert('请输入姓名');
+						return
+					};
+					if(self.submitData.phone==''){
+						alert('请输入电话');
+						return
+					};
+					if(self.submitData.content==''){
+						alert('请输入留言内容');
+						return
+					};
+					var postData = {
+						data:window.base.cloneForm(self.submitData)
+					};
+					var callback = function(res){
+						if(res.solely_code==100000){
+							alert('提交成功')
+							self.submitData = {
+								title:'',
+								phone:'',
+								content:''
+							}
+						}
+					};
+					window.base.JustaddMessage(postData, callback);
+				},
+				
+				getContactData(){
+				    var self = this;
+					console.log(345435345435435)
+				    var postData = {};
+				    postData.searchItem = {
+						thirdapp_id:2,
+					};
+					postData.getBefore = {
+						child:{
+							tableName:'Label',
+							middleKey:'menu_id',
+							key:'id',
+							searchItem:{
+								status:['in',[1]],
+								title:['in',['联系我们']]
+							},
+							condition:'in',
+						}
+					};
+					postData.order = {
+						listorder:'desc'
+					};
+				    var callback = function(res){
+				        if(res.info.data.length>0&&res.info.data[0]){
+							self.contactData = res.info.data[0]
+				        };    
+				    };
+				    window.base.articleGet(postData, callback);
+				},
+				
+				
 			}
 		});
 </script>
