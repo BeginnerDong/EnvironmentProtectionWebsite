@@ -25,24 +25,26 @@
 	.ind-caseBox .item .tit{height: 60px;line-height: 60px;}
 }
 @media only screen and (max-width: 768px){
-	.ind-caseBox .item{height: 228px;}
-	.ind-caseBox .item .pic{height: 167px;}
+	/* .ind-caseBox .item{height: 228px;} */
+	.ind-caseBox .item{width: 48%;margin-right: 2%;margin-bottom: 2%;}
+	.ind-caseBox .item .pic{height: 220px;}
 	.ind-caseBox .item .tit{font-size: 15px;}
 }
 
 @media only screen and (max-width: 414px){
-	.ind-caseBox .item{height: 135px;}
-	.ind-caseBox .item .pic{height: 89px;}
+	.ind-caseBox .item{height: 160px;margin-bottom: 2%;}
+	.ind-caseBox .item .pic{height: 115px;}
 	.ind-caseBox .item .tit{height: 46px;line-height: 46px;font-size: 14px;}
 }
 @media only screen and (max-width: 375px){
-	.ind-caseBox .item{height: 124px;}
-	.ind-caseBox .item .pic{height: 82px;}
+	.ind-caseBox .item{height: 160px;}
+	/* .ind-caseBox .item .pic{height: 82px;} */
 	.ind-caseBox .item .tit{height: 42px;line-height: 42px;font-size: 13px;}
 }
 @media only screen and (max-width: 320px){
-	.ind-caseBox .item{height: 112px;}
-	.ind-caseBox .item .pic{height: 70px;}
+	/* .ind-caseBox .item{height: 112px;} */
+	.ind-caseBox .item{width: 100%;height: 210px;}
+	.ind-caseBox .item .pic{height: 160px;}
 	.ind-caseBox .item .tit{font-size: 12px;}
 }
 
