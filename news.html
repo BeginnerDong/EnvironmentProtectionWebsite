@@ -68,7 +68,7 @@
 		<div class="w1200 pdb80 projctCont clearfix">
 			<div class="portLisbox1">
 				<div class="item borderB1" v-for="(item,index) in mainData" :key="index">
-					<a href="detail.html">
+					<a :href="'detail.html?id='+item.id">
 						<img class="photo" :src="item.mainImg&&item.mainImg[0]?item.mainImg[0].url:''">
 						<div class="list">
 							<h2 class="avoidOverflow">{{item.title}}</h2>
@@ -80,9 +80,9 @@
 			</div>
 						
 			<div class="all-pages">
-				<a class="no-prev" data-type="back" @click="changePage"><img class="arrowIcon" src="images/product-icon1.png" ></a>
+				<a class="no-prev"><img  data-type="back" @click="changePage" class="arrowIcon" src="images/product-icon1.png" ></a>
 				<a v-for="item in pageArray" :class="item == paginate.currentPage?'current':''" @click="linkTo(item)">{{item}}</a>
-				<a href="" data-type="next" @click="changePage"><img class="arrowIcon" src="images/product-icon2.png" ></a>
+				<a ><img  data-type="next" @click="changePage" class="arrowIcon" src="images/product-icon2.png" ></a>
 			</div>
 		</div>
 		

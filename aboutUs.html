@@ -54,8 +54,11 @@
 			<div class="cont clearfix">
 				<div class="LPic fl"><img :src="公司简介[0]&&公司简介[0].mainImg&&公司简介[0].mainImg[0]?公司简介[0].mainImg[0].url:''" ></div>
 				<div class="Rtext  fr">
-					<div class="content ql-editor " style="clear: both;">
-						<div class="p1 " :v-html="公司简介&&公司简介[0]?公司简介[0].content:''"></div>
+					
+					<div class="cont">
+						<div class="content ql-editor " style="clear: both;">
+							<p class="p1 " v-html="公司简介&&公司简介[0]?公司简介[0].content:''"></p>
+						</div>
 					</div>
 				</div>
 			</div>
