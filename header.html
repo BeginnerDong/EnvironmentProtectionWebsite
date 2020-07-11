@@ -2,7 +2,7 @@
 	
 	<div class="head pubBj pr pdlr4" style="background-color: #007fca;">
 		<!-- logo -->
-		<div class="T-Logo fl"><img src="images/home-logo.png"></div>
+		<div class="T-Logo fl"><img :src="logoData.mainImg&&logoData.mainImg[0]?logoData.mainImg[0].url:''"></div>
 		
 		<!-- 导航 -->
 		<div class="orderNavTwo clearfix">
@@ -54,9 +54,11 @@
 					title:''
 				},
 				bannerTimer:null,
-				is_showNav:false
+				is_showNav:false,
+				logoData:{}
 	        }
 	    },
+		
 	    created:function () {
 			var self = this;
 			// self.getMainData();
@@ -83,11 +85,12 @@
 				
 	        	this.to_headBanner()
 		    });
-			
+			self.getLogoData();
 			// self.bannerTimer = setInterval(function(){
 			// 	self.changeBanner('+');
 			// },3000)
 	    },
+		
 		
 		
 		destroyed() {
@@ -95,12 +98,28 @@
 			clearInterval(this.timer);        
 			self.bannerTimer = null;
 		},
+		
 	    methods: {
 			shownav(){
 				const self = this;
 				self.is_showNav = !self.is_showNav;
 				self.is_show = !self.is_show;
-			}
+			},
+			
+			getLogoData(){
+			    var self = this;
+			    var postData = {};
+			    postData.searchItem = {
+					thirdapp_id:2,
+					title:'Logo管理'
+				};
+			    var callback = function(res){
+			        if(res.info.data.length>0&&res.info.data[0]){
+						self.logoData = res.info.data[0]
+			        };    
+			    };
+			    window.base.labelGet(postData, callback);
+			},
 			
 	    }
 	});
