@@ -24,6 +24,9 @@
 		.aboutUs-box1 .LPic img{width: 100%;height: 100%; }
 		.aboutUs-box1 .Rtext{width: 54%;height: 100%;font-size: 18px;line-height: 34px;padding: 20px 0;box-sizing: border-box;min-height: 360px;}
 		
+		@media screen and ( max-width: 1500px){
+			.cont{width: 90%;margin: auto;}
+		}
 		@media screen and ( max-width: 1200px){
 			.aboutUs-box1 .LPic{width: 42%;height: auto;}
 			.aboutUs-box1 .Rtext{width: 56%;}
@@ -33,6 +36,7 @@
 			.aboutUs-box1 .Rtext{width: 56%;font-size: 16px;padding-top:0 ;line-height: 30px;min-height: auto;}
 		}
 		@media screen and ( max-width: 500px){
+			.cont{width: 100%;}
 			.aboutUs-box1 .LPic{width:90%;float: initial;margin: 0 auto;}
 			.aboutUs-box1 .Rtext{width: 90%;margin: 0 auto;float: initial;font-size: 14px;padding-top:0 ;line-height: 24px;min-height: auto;text-align: center;padding-top: 20px;padding-bottom: 0;}
 		}
@@ -52,8 +56,11 @@
 				<p class="xian"></p>
 			</div>
 			<div class="cont clearfix">
-				<div class="LPic fl"><img :src="公司简介[0]&&公司简介[0].mainImg&&公司简介[0].mainImg[0]?公司简介[0].mainImg[0].url:''" ></div>
-				<div class="Rtext  fr">
+				<div class="LPic fl">
+					<img v-for="(item,index) in url" :src="item.url" >
+					<!-- 公司简介[0]&&公司简介[0].mainImg&&公司简介[0].mainImg[0]?公司简介[0].mainImg[0].url:'' -->
+				</div>
+				<div class="Rtext fr">
 					
 					<div class="cont">
 						<div class="content ql-editor " style="clear: both;">
@@ -73,7 +80,7 @@
 				<div class="xqInfor">
 					<div class="cont center">
 						<div class="video">
-							<video style="width: 100%;height: 700px;" controls="controls" :src="公司文化[0]&&公司文化[0].bannerImg&&公司文化[0].bannerImg[0]?公司文化[0].bannerImg[0].url:''"></video>
+							<video style="width: 100%;height: auto;" controls="controls" :src="公司文化[0]&&公司文化[0].bannerImg&&公司文化[0].bannerImg[0]?公司文化[0].bannerImg[0].url:''"></video>
 							<!-- <img class="w" src="images/qiye-img1.jpg" > -->
 						</div>
 					</div>
@@ -132,7 +139,8 @@
 				'公司简介':[],
 				'公司文化':[],
 				'资质证书':[],
-				'轮播图':{}
+				'轮播图':{},
+				url:[]
 			}
 		},
 		
@@ -150,8 +158,8 @@
 			    var self = this;
 			    var postData = {};
 			    postData.searchItem = {
-					thirdapp_id:2,
-				};
+						thirdapp_id:2,
+					};
 				postData.getBefore = {
 					child:{
 						tableName:'Label',
@@ -184,6 +192,8 @@
 								self['轮播图'] = res.info.data[i]
 							}
 						}
+						self.url = self.公司简介[0].mainImg;
+						console.log(self.url)
 						var swiper = new Swiper('.swiper-container', {
 							   pagination: '.swiper-pagination',
 							   nextButton: '.swiper-button-next',
