@@ -104,7 +104,7 @@
 			<div class="main-rightList fr">
 				<div class="portLisbox1">
 					<div class="item" v-for="(item,index) in mainData" :key="index">
-						<a :href="'detail.html?id='+item.id">
+						<a :href="'detail.html?id='+item.id+'&type=case'">
 							<img class="photo" :src="item.mainImg&&item.mainImg[0]?item.mainImg[0].url:''">
 							<div class="list">
 								<h2 class="avoidOverflow">{{item.title}}</h2>

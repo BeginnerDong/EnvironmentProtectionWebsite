@@ -69,7 +69,7 @@
 		<div class="w1200 pdb80 projctCont clearfix">
 			<div class="portLisbox1">
 				<div class="item borderB1" v-for="(item,index) in mainData" :key="index">
-					<a :href="'detail.html?id='+item.id">
+					<a :href="'detail.html?id='+item.id+'&type=news'">
 						<img class="photo" :src="item.mainImg&&item.mainImg[0]?item.mainImg[0].url:''">
 						<div class="list">
 							<h2 class="avoidOverflow">{{item.title}}</h2>

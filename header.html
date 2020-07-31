@@ -1,27 +1,27 @@
 <div id="head_app">
-	
+
 	<div class="head pubBj pr pdlr4" style="background-color: #fff;">
 		<!-- logo -->
 		<div class="T-Logo fl"><img :src="logoData.mainImg&&logoData.mainImg[0]?logoData.mainImg[0].url:''"></div>
-		
+
 		<!-- 导航 -->
 		<div class="orderNavTwo clearfix">
 			<div class="tt" :class="currentUrl=='/index.html'?'on':''"><a href="index.html">首页</a></div>
 			<div class="tt" :class="currentUrl=='/aboutUs.html'?'on':''"><a href="aboutUs.html">企业简介</a></div>
-			<div class="tt" :class="currentUrl=='/product.html'?'on':''"><a href="product.html">产品介绍</a></div>
-			<div class="tt" :class="currentUrl=='/projectCase.html'?'on':''"><a href="projectCase.html">工程案例</a></div>
+			<div class="tt" :class="currentUrl=='/product.html'||currentUrl=='/productDetail.html'?'on':''"><a href="product.html">产品介绍</a></div>
+			<div class="tt" :class="currentUrl=='/projectCase.html'||(currentUrl=='/detail.html'&&type=='case')?'on':''"><a href="projectCase.html">工程案例</a></div>
 			<div class="tt" :class="currentUrl=='/recruit.html'?'on':''"><a href="recruit.html">人才招聘</a></div>
-			<div class="tt" :class="currentUrl=='/news.html'?'on':''"><a href="news.html">公司新闻</a></div>
+			<div class="tt" :class="currentUrl=='/news.html'||(currentUrl=='/detail.html'&&type=='news')?'on':''"><a href="news.html">公司新闻</a></div>
 			<div class="tt" :class="currentUrl=='/contactUs.html'?'on':''"><a href="contactUs.html">联系我们</a></div>
 		</div>
-		
+
 		<!-- mobile的按钮 -->
 		<div class="mobile-Btn fr" @click="shownav">
 			<span></span>
 			<span></span>
 			<span></span>
 		</div>
-		
+
 		<!-- 导航 -->
 		<div class="orderNavMobile clearfix" v-show="is_showNav">
 			<div class="tt" :class="currentUrl=='/index.html'?'on':''"><a href="index.html">首页</a></div>
@@ -32,153 +32,297 @@
 			<div class="tt" :class="currentUrl=='/news.html'?'on':''"><a href="news.html">公司新闻</a></div>
 			<div class="tt" :class="currentUrl=='/contactUs.html'?'on':''"><a href="contactUs.html">联系我们</a></div>
 		</div>
-		
+
 	</div>
 	<div class="black-bj" v-show="is_show" style="top: 44px;opacity: 0.75;"></div>
 	<div class="headH"></div>
-	
+
 </div>
 
 
 <script type="text/javascript">
 	var head_app = new Vue({
-	    el: '#head_app',
-	    data:function(){
-	        return {
-	        	banner_index:0,
-	        	is_toggle:false,
-				currentUrl:'',
-				is_show:false,
-				searchItem:{
-					thirdapp_id:window.base.thirdapp_id,
-					title:''
+		el: '#head_app',
+		data: function() {
+			return {
+				banner_index: 0,
+				is_toggle: false,
+				currentUrl: '',
+				is_show: false,
+				searchItem: {
+					thirdapp_id: window.base.thirdapp_id,
+					title: ''
 				},
-				bannerTimer:null,
-				is_showNav:false,
-				logoData:{}
-	        }
-	    },
-		
-	    created:function () {
+				bannerTimer: null,
+				is_showNav: false,
+				logoData: {},
+				type: ''
+			}
+			
+		},
+
+		created: function() {
 			var self = this;
 			// self.getMainData();
-			if(window.screen.width<500){
+			if (window.screen.width < 500) {
 				self.is_showNav = false
 			};
-	        var currentUrl = window.base.GetUrlRelativePath();
-		
+			var currentUrl = window.base.GetUrlRelativePath();
+
 			var reg = /\/([^\/]+)\.html/i;
-			if(reg.exec(currentUrl)&&reg.exec(currentUrl)[0]){
+			if (reg.exec(currentUrl) && reg.exec(currentUrl)[0]) {
 				self.currentUrl = reg.exec(currentUrl)[0];
-			}else{
+			} else {
 				self.currentUrl = '/index.html';
 			};
-			
 
-    		window.base.bus.$on('to_headBanner',(res)=>{	
-				if(res.mainImg){
-					 self.bannerData = res.mainImg
-					 return
+			self.type = window.base.GetRequest().type
+			window.base.bus.$on('to_headBanner', (res) => {
+				if (res.mainImg) {
+					self.bannerData = res.mainImg
+					return
 				};
-				console.log('res222',res)
+				console.log('res222', res)
 				this.searchItem.title = res.title;
-				
-	        	this.to_headBanner()
-		    });
+
+				this.to_headBanner()
+			});
 			self.getLogoData();
 			// self.bannerTimer = setInterval(function(){
 			// 	self.changeBanner('+');
 			// },3000)
-	    },
-		
-		
-		
+		},
+
+
+
 		destroyed() {
 			const self = this;
-			clearInterval(this.timer);        
+			clearInterval(this.timer);
 			self.bannerTimer = null;
 		},
-		
-	    methods: {
-			shownav(){
+
+		methods: {
+			shownav() {
 				const self = this;
 				self.is_showNav = !self.is_showNav;
 				self.is_show = !self.is_show;
 			},
-			
-			getLogoData(){
-			    var self = this;
-			    var postData = {};
-			    postData.searchItem = {
-					thirdapp_id:2,
-					title:'Logo管理'
+
+			getLogoData() {
+				var self = this;
+				var postData = {};
+				postData.searchItem = {
+					thirdapp_id: 2,
+					title: 'Logo管理'
 				};
-			    var callback = function(res){
-			        if(res.info.data.length>0&&res.info.data[0]){
+				var callback = function(res) {
+					if (res.info.data.length > 0 && res.info.data[0]) {
 						self.logoData = res.info.data[0]
-			        };    
-			    };
-			    window.base.labelGet(postData, callback);
+					};
+				};
+				window.base.labelGet(postData, callback);
 			},
-			
-	    }
+
+		}
 	});
 </script>
 
 <style>
-.black-bj{z-index: 10;}
-.T-Logo{width:auto; height:48px; display: block;margin-right: 40px; margin:6px 20px 6px 40px ;}
-.T-Logo img{width:auto;height: 100%;}
-.head{width: 100%;height: 60px;position: fixed;top: 0;left: 0;right: 0;z-index: 20;box-shadow: 0 1px 4px rgba(100, 100, 100, 0.1);box-sizing: border-box;}
-.head .logoCont{padding:10px 5%;}
+	.black-bj {
+		z-index: 10;
+	}
 
-.orderNavTwo{width: 850px;height: 60px;position: absolute;left: 50%;top: 50%;transform: translate(-50%,-50%);font-size: 18px;}
-.orderNavTwo .tt{ width: 14.28%;text-align: center; box-sizing: border-box; float: left;}
-.orderNavTwo .tt a{display: block;line-height: 60px;padding: 0 3px; }
-/* .orderNavTwo .tt.on{ color: #fff; position: relative;background: #53bd39;} */
-.orderNavTwo .tt.on a{ color: #53bd39;}
-.headH{height: 60px;width: 100%;}
+	.T-Logo {
+		width: auto;
+		height: 48px;
+		display: block;
+		margin-right: 40px;
+		margin: 6px 20px 6px 40px;
+	}
 
-.orderNavMobile{width:100%;height: auto;position: absolute;left: 0;top: 50px;right: 0;font-size: 16px;display: block;}
-.orderNavMobile .tt{ width: 100%;;text-align: center; box-sizing: border-box; }
-.orderNavMobile .tt a{display: block;line-height: 50px;padding: 0 4%; color: #fff;}
-.orderNavMobile .tt.on a{ color: #53bd39; position: relative;font-weight: bold;}
+	.T-Logo img {
+		width: auto;
+		height: 100%;
+	}
 
-.mobile-Btn{width: 32px;height: 32px;background: #222;border-radius: 5px;padding: 5px;box-sizing: border-box;display: none;opacity: 0.6;margin:6px 0 ;}
-.mobile-Btn span{width: 100%;height: 1px;background: #fff;margin: 5px auto;display: block;}
+	.head {
+		width: 100%;
+		height: 60px;
+		position: fixed;
+		top: 0;
+		left: 0;
+		right: 0;
+		z-index: 20;
+		box-shadow: 0 1px 4px rgba(100, 100, 100, 0.1);
+		box-sizing: border-box;
+	}
 
-@media screen and ( max-width: 1366px){
-	.T-Logo{margin-left: 0;}
-	/* .orderNavTwo{width: 70%;left: auto;right: 4%;transform: translate(0,-50%);} */
-}
-@media screen and ( max-width: 1280px){
-	.T-Logo{margin-left: 0;}
-	.orderNavTwo{width: 70%;left: auto;right: 4%;transform: translate(0,-50%);}
-}
+	.head .logoCont {
+		padding: 10px 5%;
+	}
 
-/*以下自适应样式*/
-@media screen and ( max-width: 1000px){
-	
-	.head{height: 44px;padding: 0 3%;}
-	.headH{height: 44px;}
-	.orderNavTwo{display: none;}
-	.orderNavTwo .w1200{padding: 0; font-size: 14px;width: 100%;}
-	.orderNavTwo .tt a{line-height: 40px;padding: 0 10px;}
-	
-	.mobile-Btn{display: block;}
-	
-	.head .logoCont{padding: 10px 2%;}
-	.T-Logo{height: 36px;margin: 4px 0 4px 0;}
-	/* .headH{height: 100px;} */
-}
+	.orderNavTwo {
+		width: 850px;
+		height: 60px;
+		position: absolute;
+		left: 50%;
+		top: 50%;
+		transform: translate(-50%, -50%);
+		font-size: 18px;
+	}
 
-@media screen and ( max-width: 500px){
-	.Rphone{display: none;}
-	
-	
-	
-	.orderNavTwo .w1200{display: block;}
-	.orderNavTwo .tt{width: 100%;border-bottom: 1px solid #eee;}
-}
+	.orderNavTwo .tt {
+		width: 14.28%;
+		text-align: center;
+		box-sizing: border-box;
+		float: left;
+	}
 
+	.orderNavTwo .tt a {
+		display: block;
+		line-height: 60px;
+		padding: 0 3px;
+	}
+
+	/* .orderNavTwo .tt.on{ color: #fff; position: relative;background: #53bd39;} */
+	.orderNavTwo .tt.on a {
+		color: #53bd39;
+	}
+
+	.headH {
+		height: 60px;
+		width: 100%;
+	}
+
+	.orderNavMobile {
+		width: 100%;
+		height: auto;
+		position: absolute;
+		left: 0;
+		top: 50px;
+		right: 0;
+		font-size: 16px;
+		display: block;
+	}
+
+	.orderNavMobile .tt {
+		width: 100%;
+		;
+		text-align: center;
+		box-sizing: border-box;
+	}
+
+	.orderNavMobile .tt a {
+		display: block;
+		line-height: 50px;
+		padding: 0 4%;
+		color: #fff;
+	}
+
+	.orderNavMobile .tt.on a {
+		color: #53bd39;
+		position: relative;
+		font-weight: bold;
+	}
+
+	.mobile-Btn {
+		width: 32px;
+		height: 32px;
+		background: #222;
+		border-radius: 5px;
+		padding: 5px;
+		box-sizing: border-box;
+		display: none;
+		opacity: 0.6;
+		margin: 6px 0;
+	}
+
+	.mobile-Btn span {
+		width: 100%;
+		height: 1px;
+		background: #fff;
+		margin: 5px auto;
+		display: block;
+	}
+
+	@media screen and (max-width: 1366px) {
+		.T-Logo {
+			margin-left: 0;
+		}
+
+		/* .orderNavTwo{width: 70%;left: auto;right: 4%;transform: translate(0,-50%);} */
+	}
+
+	@media screen and (max-width: 1280px) {
+		.T-Logo {
+			margin-left: 0;
+		}
+
+		.orderNavTwo {
+			width: 70%;
+			left: auto;
+			right: 4%;
+			transform: translate(0, -50%);
+		}
+	}
+
+	/*以下自适应样式*/
+	@media screen and (max-width: 1000px) {
+
+		.head {
+			height: 44px;
+			padding: 0 3%;
+		}
+
+		.headH {
+			height: 44px;
+		}
+
+		.orderNavTwo {
+			display: none;
+		}
+
+		.orderNavTwo .w1200 {
+			padding: 0;
+			font-size: 14px;
+			width: 100%;
+		}
+
+		.orderNavTwo .tt a {
+			line-height: 40px;
+			padding: 0 10px;
+		}
+
+		.mobile-Btn {
+			display: block;
+		}
+
+		.head .logoCont {
+			padding: 10px 2%;
+		}
+
+		.T-Logo {
+			height: 36px;
+			margin: 4px 0 4px 0;
+		}
+
+		/* .headH{height: 100px;} */
+	}
+
+	@media screen and (max-width: 500px) {
+		.Rphone {
+			display: none;
+		}
+
+
+
+		.orderNavTwo .w1200 {
+			display: block;
+		}
+
+		.orderNavTwo .tt {
+			width: 100%;
+			border-bottom: 1px solid #eee;
+		}
+	}
 </style>
