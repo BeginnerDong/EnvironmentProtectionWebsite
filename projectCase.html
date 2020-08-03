@@ -89,8 +89,8 @@
 <body>
 	<div id="app">
 		<include src="header.html"></include>
-		<div class="">
-			<img class="w" src="images/home-banner.jpg" >
+		<div class="bannerImg">
+			<img class="w" :src="banner图&&banner图.mainImg&&banner图.mainImg[0]&&banner图.mainImg[0]['url']" >
 		</div>
 		
 		<div class="w1200 pdb80 projctCont clearfix">
@@ -198,14 +198,15 @@
 			    var callback = function(res){
 			        if(res.info.data.length>0&&res.info.data[0]){
 						for (var i = 0; i < res.info.data.length; i++) {
-							if(res.info.data[i].title=='轮播图'){
-								self['轮播图'] = res.info.data[i]
+							if(res.info.data[i].title=='banner图'){
+								self['banner图'] = res.info.data[i]
 							}
-							if(res.info.data[i].title!='轮播图'){
+							if(res.info.data[i].title!='banner图'){
 								self.labelData.push(res.info.data[i])
 							};
 							self.searchItem.menu_id = self.labelData[0].id;
 						}
+						console.log('banner图',self['banner图'])
 						self.getMainData()
 						//self.labelData.push.apply(self.labelData,res.info.data)
 			        };    

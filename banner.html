@@ -1,14 +1,14 @@
 <div id="banner_app"  style="width: 100%;" class="swiperBox">
-		<div class="banner clearfix" v-for="(item,index) in 轮播图" v-show="index==banner_index" style="width:100%">
+		<div class="banner clearfix" v-for="(item,index) in banner图" v-show="index==banner_index" style="width:100%">
 			<a :href="item.passage1">
-				<img class="pic" :src="item.mainImg&&item.mainImg[0]?item.mainImg[0].url:''" />	
+				<img class="pic" :src="item.url" />	
 			</a>
 			
 		</div>
 		
 		<!-- 导航点 -->
 		<div class="banBtnNav">
-			<span v-for="(item,index) in 轮播图" :class="index==banner_index?'active':''" :data-index="index" @click="toBannerOne"></span>
+			<span v-for="(item,index) in banner图" :class="index==banner_index?'active':''" :data-index="index" @click="toBannerOne"></span>
 		</div>
 		
 </div>
@@ -18,35 +18,35 @@
 	var banner_app = new Vue({
 	    el: '#banner_app',
 	    data:function(){
-	        return {
-	        	banner_index:0,
-	        	is_toggle:false,
-				shownav:true,
-				is_show:false,
-				bannerData:[
-					{banImgUrl:"images/home-banner.jpg"},
-					{banImgUrl:"images/product-banner.jpg"}
-				],
+				return {
+					banner_index:0,
+					is_toggle:false,
+					shownav:true,
+					is_show:false,
+					bannerData:[
+						{banImgUrl:"images/home-banner.jpg"},
+						{banImgUrl:"images/product-banner.jpg"}
+					],
 				searchItem:{
 					thirdapp_id:window.base.thirdapp_id,
 					title:''
 				},
 				bannerTimer:null,
-				'轮播图':[],
+				'banner图':[],
 	        }
 	    },
 	    created:function () {
-	        var self = this;
-	        var currentUrl = window.base.GetUrlRelativePath();
+				var self = this;
+				var currentUrl = window.base.GetUrlRelativePath();
 		
-			var reg = /\/([^\/]+)\.html/i;
-			if(reg.exec(currentUrl)&&reg.exec(currentUrl)[0]){
-				self.currentUrl = reg.exec(currentUrl)[0];
-			}else{
-				self.currentUrl = '/index.html';
-			};
-			
-			self.getMainData()
+				var reg = /\/([^\/]+)\.html/i;
+				if(reg.exec(currentUrl)&&reg.exec(currentUrl)[0]){
+					self.currentUrl = reg.exec(currentUrl)[0];
+				}else{
+					self.currentUrl = '/index.html';
+				};
+				
+				self.getMainData()
     		/* window.base.bus.$on('to_headBanner',(res)=>{	
 				if(res.mainImg){
 					 self.bannerData = res.mainImg
@@ -61,7 +61,7 @@
 			self.bannerTimer = setInterval(function(){
 				self.changeBanner('+');
 			},3000) */
-	    },
+	   },
 		
 		
 		destroyed() {
@@ -72,6 +72,7 @@
 	    methods: {
 			
 			getMainData(){
+				console.log('tesr');
 			    var self = this;
 			    var postData = {};
 			    postData.searchItem = {
@@ -101,15 +102,15 @@
 					}
 				};
 			    var callback = function(res){
-			        if(res.info.data.length>0&&res.info.data[0]){
-						for (var i = 0; i < res.info.data.length; i++) {
-							self[res.info.data[i].title] = res.info.data[i].child
-							console.log(self[res.info.data[i].title])
-						}
-						
-			        }; 
-				   self.bannerTimer = setInterval(function(){
-					self.changeBanner('+');
+						if(res.info.data.length>0&&res.info.data[0]){
+							for (var i = 0; i < res.info.data.length; i++) {
+								self[res.info.data[i].title] = res.info.data[i].mainImg
+								console.log(self[res.info.data[i].title])
+							}
+						}; 
+						console.log('bannerdata',res.info.data);
+						self.bannerTimer = setInterval(function(){
+						self.changeBanner('+');
 				   },3000)
 			    };
 			    window.base.labelGet(postData, callback);
@@ -133,9 +134,9 @@
 	    		};
 	    		
 	    		if(self.banner_index<0){
-	    			self.banner_index = self['轮播图'].length-1
+	    			self.banner_index = self['banner图'].length-1
 	    		};
-	    		if(self.banner_index==self['轮播图'].length){
+	    		if(self.banner_index==self['banner图'].length){
 	    			self.banner_index = 0
 	    		};	
 	    		console.log('self.banner_index',self.banner_index);
@@ -156,7 +157,7 @@
 /*网站banner*/
 .swiperBox{  position: relative; width: 100%; overflow: hidden;}
 .swiperBox .banner{ width: 100%;}
-.swiperBox .banner img{ width: 100%; display: block;height: auto;}
+.swiperBox .banner img{ width: 100%; display: block;height: 700px;}
 
 .swiperBox .arrowIon{position: absolute;top:45%;z-index:50;cursor: pointer; padding: 20px 15px; background: rgba(0,0,0,0.3); border-radius: 4px;}
 .swiperBox .arrowIon.prev{right:30px;}

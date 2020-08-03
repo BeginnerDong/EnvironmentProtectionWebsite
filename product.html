@@ -60,7 +60,7 @@
 	<div id="app">
 		<include src="header.html"></include>
 		<div class="">
-			<img class="w" :src="轮播图.mainImg&&轮播图.mainImg[0]?轮播图.mainImg[0].url:''">
+			<img class="w" :src="banner图.mainImg&&banner图.mainImg[0]?banner图.mainImg[0].url:''">
 		</div>
 		
 		<div class="w1200 productLis">
@@ -95,7 +95,7 @@
 		data:function(){
 			return {
 				mainData: [],
-				'轮播图':{},
+				'banner图':{},
 				linkPage: [],
 				pageArray: [],
 				paginate:{
@@ -140,8 +140,8 @@
 			    var callback = function(res){
 			        if(res.info.data.length>0&&res.info.data[0]){
 						for (var i = 0; i < res.info.data.length; i++) {
-							if(res.info.data[i].title=='轮播图'){
-								self['轮播图'] = res.info.data[i]
+							if(res.info.data[i].title=='banner图'){
+								self['banner图'] = res.info.data[i]
 							}
 						}
 						//self.labelData.push.apply(self.labelData,res.info.data)
