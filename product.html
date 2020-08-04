@@ -59,8 +59,8 @@
 <body>
 	<div id="app">
 		<include src="header.html"></include>
-		<div class="">
-			<img class="w" :src="banner图.mainImg&&banner图.mainImg[0]?banner图.mainImg[0].url:''">
+		<div>
+			<img class="w" v-if="banner图.mainImg&&banner图.mainImg[0]" :src="banner图.mainImg&&banner图.mainImg[0]?banner图.mainImg[0].url:''">
 		</div>
 		
 		<div class="w1200 productLis">
@@ -179,6 +179,7 @@
 						window.base.computePageArr(self);
 			        };    
 			    };
+					console.log(self.mainData)
 			    window.base.articleGet(postData, callback);
 			},
 			

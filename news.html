@@ -63,7 +63,7 @@
 	<div id="app">
 		<include src="header.html"></include>
 		<div class="">
-			<img class="w" :src="banner图.mainImg&&banner图.mainImg[0]?banner图.mainImg[0].url:''">
+			<img class="w" v-if="banner图.mainImg&&banner图.mainImg[0]" :src="banner图.mainImg&&banner图.mainImg[0]?banner图.mainImg[0].url:''">
 		</div>
 		
 		<div class="w1200 pdb80 projctCont clearfix">
