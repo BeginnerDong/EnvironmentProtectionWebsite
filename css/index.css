@@ -13,6 +13,9 @@
 .ind-caseBox .item:hover .mask{ bottom: 0;}
 
 
+.newsTxt{font-size: 26px!important;font-weight: bold;}
+
+
 
 /*以下自适应样式*/
 @media only screen and (max-width: 1280px){
@@ -29,12 +32,15 @@
 	.ind-caseBox .item{width: 48%;margin-right: 2%;margin-bottom: 2%;}
 	.ind-caseBox .item .pic{height: 220px;}
 	.ind-caseBox .item .tit{font-size: 15px;}
+	.newsTxt{font-size: 22px!important;}
 }
 
 @media only screen and (max-width: 414px){
 	.ind-caseBox .item{height: 160px;margin-bottom: 2%;}
 	.ind-caseBox .item .pic{height: 115px;}
 	.ind-caseBox .item .tit{height: 46px;line-height: 46px;font-size: 14px;}
+	.newsTxt{font-size: 18px!important;}
+	/* .swiperBox .banner img{height: 150px;} */
 }
 @media only screen and (max-width: 375px){
 	.ind-caseBox .item{height: 160px;}
